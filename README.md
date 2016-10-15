@@ -38,12 +38,12 @@ Anyway, I owe you one, messageboard god.
   
 
 ###Were this to turn into a product 
-  (ie build your own virtual living room) we'd want more privacy options
-  People might actually want to do this.  Why would you not want your own private gated social community?
-  This is not an original thought.  Venture capital has most assuredly been wasted on this idea already.
-  The secret to having a good message board is
-    interesting people
-    good moderation
+  (ie build your own virtual living room) we'd want more privacy options  
+  People might actually want to do this.  Why would you not want your own private gated social community?  
+  This is not an original thought.  Venture capital has most assuredly been wasted on this idea already.  
+  The secret to having a good message board is  
+    interesting people  
+    good moderation  
  
 
 Arch notes.
