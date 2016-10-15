@@ -1,5 +1,7 @@
 # mylr [My Living Room] -> mylr -> (rhymes with "Tyler")
 
+# read this file as raw.  
+
 Building a message board over here.  It's hard to make friends in mn, and the way I finally did it was on a local record label message board.  That thing was the victim of a series of hacking attacks that effectively obsoleted it.  It was replaced with a newer architecture board that had too many images and was just slow as shit to load.  Then everybody moved to facebook, which has sort of stopped being funny and started being sort of orwellian.
 Anyway, I owe you one, messageboard god.
 
