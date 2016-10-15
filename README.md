@@ -1,8 +1,7 @@
 # mylr [My Living Room] -> mylr -> (rhymes with "Tyler")
 
-# read this file as raw.  
-
-Building a message board over here.  It's hard to make friends in mn, and the way I finally did it was on a local record label message board.  That thing was the victim of a series of hacking attacks that effectively obsoleted it.  It was replaced with a newer architecture board that had too many images and was just slow as shit to load.  Then everybody moved to facebook, which has sort of stopped being funny and started being sort of orwellian.
+Building a message board over here.  
+It's hard to make friends in mn, and the way I finally did it was on a local record label message board.  That thing was the victim of a series of hacking attacks that effectively obsoleted it.  It was replaced with a newer architecture board that had too many images and was just slow as shit to load.  Then everybody moved to facebook, which has sort of stopped being funny and started being sort of orwellian.
 
 Anyway, I owe you one, messageboard god.
 
@@ -39,10 +38,10 @@ Anyway, I owe you one, messageboard god.
   
 
 ###Were this to turn into a product 
-  (ie build your own virtual living room) we'd want more privacy options.
+  (ie build your own virtual living room) we'd want more privacy options
   People might actually want to do this.  Why would you not want your own private gated social community?
   This is not an original thought.  Venture capital has most assuredly been wasted on this idea already.
-  The secret to having a good message board is 
+  The secret to having a good message board is
     interesting people
     good moderation
  
