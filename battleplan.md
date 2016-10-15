@@ -7,10 +7,10 @@
 	* AWS - host. 
 	* Github - working on it.
 * DONE buy a domain
-* DONE hello world in node.js
+* DONE hello world in node.js with backbone
 * migrate to a hosted box, bind domain. 
 * INPROGRESS con some people into working on this project - josh - annie - dexheimer - kevin - lee - who else we got
-* Add some jquery and backbone to allow toggling from a list of displayed messages
+* Add more jquery and backbone to allow toggling from a list of displayed messages
 * Add some stuff to allow users to update the single displayed message.  
 	* For safety, only allow letters, numbers, basic punctuation, and rip out anything else
 * add subscriptions or auto refresh, so that when someone posts a new thing, you see it immediately.
