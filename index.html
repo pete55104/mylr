@@ -7,6 +7,13 @@
 </head>
 <body>
 <div>who got dat deesh</div>
+<div id="secretsDiv">
+  <script type="text/javascript"> 
+  var div = document.getElementById("secretsDiv");
+  var secretFileMessage = config.secretFileMessage;
+  //if(!secretFileMessage){secretFileMessage = "crap! couldn\'t find the secret file";}
+  div.textContent = secretFileMessage;
+  </script></div>
 <div id="container">Loading...</div>
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>

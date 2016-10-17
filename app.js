@@ -1,6 +1,23 @@
 var http = require('http');
 var fs = require('fs');
 var path = require('path');
+var config;
+
+function getSecrets() {
+    var secretFileName = "./mylr-secrets.json"
+
+    try {
+    config = require(secretFileName)
+    console.log(config.secretFileMessage);
+    }
+    catch (err) {
+    config = {}
+    console.log("could not load secret file at '" + secretFileName + "': ", err)
+    console.log(config)
+    }
+}
+
+getSecrets();
 
 http.createServer(function (request, response) {
     console.log('request starting...');
@@ -53,4 +70,5 @@ http.createServer(function (request, response) {
     });
 
 }).listen(8081);
-console.log('Server running at http://127.0.0.1:8081/');
+console.log('Server now running at http://127.0.0.1:8081/');
+
