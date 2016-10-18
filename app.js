@@ -1,7 +1,11 @@
 var http = require('http');
 var fs = require('fs');
+var ejs = require('ejs');
+var mongodb = require('mongodb');
 var path = require('path');
 var config;
+
+var MongoClient = mongodb.MongoClient;
 
 function getSecrets() {
     var secretFileName = "./mylr-secrets.json"
@@ -9,6 +13,7 @@ function getSecrets() {
     try {
     config = require(secretFileName)
     console.log(config.secretFileMessage);
+    console.log(config.mongoDBConnectString)
     }
     catch (err) {
     config = {}
@@ -16,8 +21,41 @@ function getSecrets() {
     console.log(config)
     }
 }
-
 getSecrets();
+
+function getNotes(connectionString){
+    var resultNote = "";
+    try{
+        MongoClient.connect(connectionString, function (err, db) {
+        if (err) {
+            console.log('Unable to connect to the mongoDB server. Error:', err);
+        } else {
+            //HURRAY!! We are connected. :)
+            console.log('Connection established to', connectionString);
+
+            // do some work here with the database.
+            var notes = db.collection('notes')
+            notes.find({notetype: "welcome"}).toArray(function(err,result){
+                if (err) {
+                    console.log(err);
+                } else if (result.length) {
+                    console.log('Found:', result);
+                    resultNote = result[0].text;
+                } else {
+                    console.log('No document(s) found with defined "find" criteria!');
+                }
+            })
+            //Close connection
+            db.close();
+        }}
+        );
+    }
+    catch(ex){
+        console.log('exception in getnotes DB attempt', ex.content);
+    }
+    return resultNote;
+}
+var note = getNotes(config.mongoDBConnectString);
 
 http.createServer(function (request, response) {
     console.log('request starting...');
@@ -63,7 +101,7 @@ http.createServer(function (request, response) {
                 response.end(); 
             }
         }
-        else {
+        else {//Booya!  render the page!
             response.writeHead(200, { 'Content-Type': contentType });
             response.end(content, 'utf-8');
         }
