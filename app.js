@@ -2,10 +2,14 @@ var http = require('http');
 var fs = require('fs');
 var ejs = require('ejs');
 var mongodb = require('mongodb');
+var mongoose = require('mongoose');
 var path = require('path');
 var config;
 
 var MongoClient = mongodb.MongoClient;
+
+
+
 
 function getSecrets() {
     var secretFileName = "./mylr-secrets.json"
@@ -23,9 +27,34 @@ function getSecrets() {
 }
 getSecrets();
 
-function getNotes(connectionString){
-    var resultNote = "dummy text";
-    try{
+
+mongoose.connect(config.mongoDBConnectString);
+mongoose.connection.on('connected', function () {
+
+    console.log('Mongoose connection open ', config.mongoDBConnectString);
+
+});
+mongoose.connection.on('error', function (err) {
+
+    console.log('Mongoose error connecting ', err);
+
+});
+
+
+function getNotes(){
+        var noteSchema = mongoose.Schema({
+            notetype: String,
+            text: String
+        });
+    var Note = mongoose.model('note', noteSchema,'note');
+    Note.find({'notetype': 'welcome'},function(err,notes){
+        if(err) 
+            console.log("Error in getNotes: ",err);
+       var notetext = notes[0].text;
+        console.log("welcome Note: ",notetext);
+        return notetext;
+    });
+/*
         MongoClient.connect(connectionString, function (err, db) {
         if (err) {
             console.log('Unable to connect to the mongoDB server. Error:', err);
@@ -49,14 +78,11 @@ function getNotes(connectionString){
             db.close();
         }}
         );
-    }
-    catch(ex){
-        console.log('exception in getnotes DB attempt', ex.content);
-    }
-    resultNote = "dummy text";
     return resultNote;
-}
-var note = getNotes(config.mongoDBConnectString);
+    */
+};
+
+var note = getNotes();
 
 function svcGetNotes(request, response){
     var contentType = 'application/json';
