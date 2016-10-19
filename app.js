@@ -3,10 +3,9 @@ var fs = require('fs');
 var ejs = require('ejs');
 var mongodb = require('mongodb');
 var mongoose = require('mongoose');
+mongoose.Promise = global.Promise;
 var path = require('path');
 var config;
-
-var MongoClient = mongodb.MongoClient;
 
 
 
@@ -39,55 +38,30 @@ mongoose.connection.on('error', function (err) {
     console.log('Mongoose error connecting ', err);
 
 });
+var MongoClient = mongodb.MongoClient;
 
+var noteSchema = mongoose.Schema({
+    notetype: String,
+    text: String
+});
 
-function getNotes(){
-        var noteSchema = mongoose.Schema({
-            notetype: String,
-            text: String
-        });
+function getNotesQuery(notetype){
     var Note = mongoose.model('note', noteSchema,'note');
-    Note.find({'notetype': 'welcome'},function(err,notes){
-        if(err) 
-            console.log("Error in getNotes: ",err);
-       var notetext = notes[0].text;
-        console.log("welcome Note: ",notetext);
-        return notetext;
-    });
-/*
-        MongoClient.connect(connectionString, function (err, db) {
-        if (err) {
-            console.log('Unable to connect to the mongoDB server. Error:', err);
-        } else {
-            //HURRAY!! We are connected. :)
-            console.log('Connection established to', connectionString);
-
-            // do some work here with the database.
-            var notes = db.collection('notes')
-            notes.find({notetype: "welcome"}).toArray(function(err,result){
-                if (err) {
-                    console.log(err);
-                } else if (result.length) {
-                    console.log('Found:', result);
-                    resultNote = result[0].text;
-                } else {
-                    console.log('No document(s) found with defined "find" criteria!');
-                }
-            })
-            //Close connection
-            db.close();
-        }}
-        );
-    return resultNote;
-    */
+    var query = Note.find({'notetype': notetype});
+    return query;
 };
-
-var note = getNotes();
 
 function svcGetNotes(request, response){
     var contentType = 'application/json';
     response.writeHead(200, { 'Content-Type': contentType });
-    response.end('{"text":"' + note + '"}', 'utf-8');
+    var welcomeNoteQuery = getNotesQuery('welcome');
+    welcomeNoteQuery.exec(function(err,notes){
+        if(err) 
+            console.log("Error in getNotes: ",err);
+        if(notes.length)
+        response.end('{"text":"' + notes[0].text + '"}', 'utf-8');
+        return;
+    })
 }
 
 http.createServer(function (request, response) {
