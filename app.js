@@ -60,6 +60,7 @@ function svcGetNotes(request, response){
             console.log("Error in getNotes: ",err);
         if(notes.length)
         response.end('{"text":"' + notes[0].text + '"}', 'utf-8');
+        console.log('svcGetNotes' + notes);
         return;
     })
 }
