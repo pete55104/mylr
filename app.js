@@ -68,11 +68,15 @@ function svcGetNotes(request, response){
 http.createServer(function (request, response) {
     console.log('request starting...');
 
-
+    var banned = ['./mylr-secrets.json', './README.md', './battleplan.md'];
+    banned = banned.map(function(x){return x.toUpperCase()});
     var filePath = '.' + request.url;
     if (filePath == './')
         filePath = './index.html';
-
+    else if(banned.indexOf(filePath.toUpperCase()) > -1)
+        filePath = './404.html'
+    
+    
     if(filePath == './getnotes')
         svcGetNotes(request,response);
     else {
