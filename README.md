@@ -54,4 +54,29 @@ Arch notes.
     AWS
     Github
 
-  
+####Schema notes
+We expect the following queries:
+1) list all posts in a thread
+2) list most recent N posts in thread
+3) list page N of threads by date last posted descended
+4) list posts by user
+5) list threads by user
+6) list threads by tag
+
+Obviously all collections have an _id field.
+board: name domain subdomain robots-txt userAddMode admins{userid username} 
+  userAddMode defaults to SMS: you need a username, a phone number that takes text messages, and a human readable secret passphrase for use by admins in hard overriding account details
+threads: board_id create{ date username userid} hide{ date username userid reason} posts{} tags{}
+
+LATER:
+posts: board_id thread_id create{date username userid} hide{date username userid reason} text 
+thread-posts is a list of which fields in the post collection to add to a thread's post array
+  entries in this collection are starred in posts above:  _id fieldname
+  initially this is for reference only, but at some point an automated janitor function should run backwards through history,
+    updating the post documents in the thread collection  
+tags: tag_id 
+
+
+
+All tables should be indexed (sharded?) by board_id.
+
