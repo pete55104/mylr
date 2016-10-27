@@ -10,14 +10,17 @@
 * DONE hello world in node.js with backbone
 * DONE migrate to a hosted box, bind domain. 
 * INPROGRESS con some people into working on this project - josh - annie - dexheimer - kevin - lee - who else we got
-* Add more jquery and backbone to allow toggling from a list of displayed messages
-* Add some stuff to allow users to update the single displayed message.  
+* add a post control that allows posting to a text sanitization field.
 	* For safety, only allow letters, numbers, basic punctuation, and rip out anything else
-* add subscriptions or auto refresh, so that when someone posts a new thing, you see it immediately.
-* build a database
+	* add a timer for last time posted by IP address, disallow posting too rapidly
+* Add some stuff to allow users to post to the sole thread, and hide comments
+* add image and anchor tags using @@ or similar.
+* create thread listing and thread pages
+* allow create threads
+* INPROGRESS build a database
 * add an oauth server, registration page, login page, log out page
-* update post controls to allow certain tags
-* create CRUD web services
+* add subscriptions or auto refresh, so that when someone posts a new thing, you see it immediately.
+* INPROGRESScreate CRUD web services
 * create initial thread
 * allow users to post to initial thread
 * create main page listing threads by last updated, thread page

@@ -66,10 +66,14 @@ We expect the following queries:
 Obviously all collections have an _id field.
 board: name domain subdomain robots-txt userAddMode admins{userid username} 
   userAddMode defaults to SMS: you need a username, a phone number that takes text messages, and a human readable secret passphrase for use by admins in hard overriding account details
-threads: board_id create{ date username userid} hide{ date username userid reason} posts{} tags{}
+threads: board_id create{ date username userid} hide{ date username userid reason} 
+  posts{{postid text username userid postdate}} 
+  tags{tagname}
+tags: tagname
+
 
 LATER:
-posts: board_id thread_id create{date username userid} hide{date username userid reason} text 
+posts: board_id thread_id create{date username userid} hide{date username userid reason} text allow-anon-reads invite-only
 thread-posts is a list of which fields in the post collection to add to a thread's post array
   entries in this collection are starred in posts above:  _id fieldname
   initially this is for reference only, but at some point an automated janitor function should run backwards through history,

@@ -11,6 +11,7 @@
   <section id="notesapp">
     <section id="main">
       <ul id="notes-list" style="list-style: none"></ul>
+      <div id="post-box"> </div>
     </section>
   </section>
   <!-- Templates -->
@@ -18,6 +19,16 @@
       <li><%- text %></li>
   </script>  
 
+  <div id="post-box">
+
+    <script type="text/html" id="post-box-template">
+     <div><span style="font-size:smaller">at <%- createDate %>, a person purporting to be <%- username %> said </span>
+        <span style="font-size:large"><%- text %></span>
+      <br><label id=namelbl text="name:"/><input id="nameinput" class="shortedit">
+      <br><label id=textlbl text="text:"/><input id="textinput" class="mledit">
+      <br><button class="dopost">post it</button>
+    </script>  
+  </div>
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js" type="text/javascript"></script>
@@ -48,6 +59,52 @@
         return this; // enable chained calls
       }
     });
+
+    app.Post = Backbone.Model.extend({
+      defaults:{
+        username: 'anonymous',
+        text: ''//,
+        //createDate: currentdate.getDate() + "/"
+        //        + (currentdate.getMonth()+1)  + "/" 
+        //        + currentdate.getFullYear() + " @ "  
+        //        + currentdate.getHours() + ":"  
+        //        + currentdate.getMinutes() + ":" 
+        //        + currentdate.getSeconds()
+      }
+
+    });
+
+    app.lonePost = new app.Post({
+      text:'Let\'s get this party started'
+    }); 
+
+    app.SinglePostView = Backbone.View.extend({
+      tagname: 'div',
+      
+      //cache template for a single item...
+      spvTemplate: _.template($('#post-box').html() ),
+
+      events: {
+        'click button': 'doposttext'
+      },
+
+      initialize: function() {
+        this.$el = $('#lonePost');
+      },
+
+      render: function(){
+        this.$el.html( this.spvTemplate(this.model.attributes) );
+        this.input = this.$('');
+      },
+
+      doposttext: function(){
+
+
+      }
+
+    });
+    app.singlePostView = new app.SinglePostView({model: app.lonePost});
+    
 
     app.AppView = Backbone.View.extend({
       el: '#notesapp',
