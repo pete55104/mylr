@@ -8,27 +8,20 @@
 <body>
 <div>who got dat deesh</div>
 
-  <section id="notesapp">
-    <section id="main">
-      <ul id="notes-list" style="list-style: none"></ul>
-      <div id="post-box"> </div>
-    </section>
-  </section>
-  <!-- Templates -->
-  <script type="text/html" id="note-template">
-      <li><%- text %></li>
-  </script>  
+  <section id="post-box">loading...</section>
 
-  <div id="post-box">
-
-    <script type="text/html" id="post-box-template">
-     <div><span style="font-size:smaller">at <%- createDate %>, a person purporting to be <%- username %> said </span>
-        <span style="font-size:large"><%- text %></span>
-      <br><label id=namelbl text="name:"/><input id="nameinput" class="shortedit">
-      <br><label id=textlbl text="text:"/><input id="textinput" class="mledit">
-      <br><button class="dopost">post it</button>
-    </script>  
-  </div>
+<script type="text/template" id="post-template">
+    <div>
+      <div><span style="font-size:smaller">at <%- createDate %>, a person purporting to be <%- username %> said </span>
+          <span style="font-size:large"><%- text %></span>
+      </div>
+        <div>
+          <br><span>name:</span><input id="nameinput" class="nameinput">
+          <br><span>text:</span><input id="textinput" class="textinput">
+          <br><button id="postbttn" class="dopost">post it</button>
+        </div>
+      </div>
+</script>
 
   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js" type="text/javascript"></script>
   <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.3.3/underscore-min.js" type="text/javascript"></script>
@@ -37,34 +30,12 @@
   <script type="text/javascript">
     'use strict'; 
     var app = {}; // create namespace for our app
-    
-    //model and collection
-    app.Note = Backbone.Model.extend({
-    urlRoot: '/getnotes',
-        url: function() {
-          return this.urlRoot + '';//'?name=' + this.id;
-        }
-    });
-    app.NoteList = Backbone.Collection.extend({
-      model: app.Note
-      , url: '/getnotes'
-    });
-    app.noteList = new app.NoteList();
-    //views
-    app.NoteView = Backbone.View.extend({
-      tagName: 'li',
-      template: _.template($('#note-template').html()),
-      render: function(){
-        this.$el.html(this.template(this.model.toJSON()));
-        return this; // enable chained calls
-      }
-    });
 
     app.Post = Backbone.Model.extend({
       defaults:{
         username: 'anonymous',
-        text: ''//,
-        //createDate: currentdate.getDate() + "/"
+        text: '',
+        createDate: 'right now' //currentdate.getDate() + "/"
         //        + (currentdate.getMonth()+1)  + "/" 
         //        + currentdate.getFullYear() + " @ "  
         //        + currentdate.getHours() + ":"  
@@ -80,52 +51,41 @@
 
     app.SinglePostView = Backbone.View.extend({
       tagname: 'div',
-      
-      //cache template for a single item...
-      spvTemplate: _.template($('#post-box').html() ),
+      template: _.template($('#post-template').html() ),
 
       events: {
-        'click button': 'doposttext'
+        'click .dopost': 'doposttext'
       },
 
+
+
       initialize: function() {
-        this.$el = $('#lonePost');
+        this.$el = $('#post-box');
+        this.model = app.lonePost;
+        if(this.model) {
+          this.model.on('change', this.render);
+          console.log(this.model);
+        }
       },
 
       render: function(){
-        this.$el.html( this.spvTemplate(this.model.attributes) );
-        this.input = this.$('');
+        this.$el.html(this.template(this.model.attributes));
+
+        return this;
       },
 
       doposttext: function(){
-
-
+        this.model.text = $('textinput').text;
+        this.model.username = $('nameinput').text;
+        this.render();
       }
 
     });
-    app.singlePostView = new app.SinglePostView({model: app.lonePost});
-    
 
-    app.AppView = Backbone.View.extend({
-      el: '#notesapp',
-      initialize: function () {
-        app.noteList.on('add', this.addAll, this);
-        app.noteList.on('reset', this.addAll, this);
-        app.noteList.fetch(); // Loads list from db
-      },
-      addOne: function(note){
-        var view = new app.NoteView({model: note});
-        $('#notes-list').append(view.render().el);
-      },
-      addAll: function(){
-        this.$('#notes-list').html(''); // clean the note list
-        app.noteList.each(this.addOne, this);
-      }
-    });   
-
-    app.appView = new app.AppView();
-
-  </script>
+    app.singlePostView = new app.SinglePostView();
+    $('#post-box').append( app.singlePostView.render().el );
+      
+</script>
 
 
 
